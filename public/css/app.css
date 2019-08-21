@@ -1,0 +1,27 @@
+div.container {
+    margin-top: 20px;
+}
+
+div.h2{
+    color: white;
+}
+
+.avatar {
+    max-width: 128px;
+    max-height: 128px;
+    border-radius: 50%;
+}
+
+.avatar-medium {
+    max-width: 64px;
+    max-height: 64px;
+}
+
+.avatar-mini {
+    max-width: 24px;
+    max-height: 24px;
+}
+.avatar-micro {
+    max-width: 12px;
+    max-height: 12px;
+}

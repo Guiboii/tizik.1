@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des étudiants{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des étudiants</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>email</th>
+                <th>Référent</th>
+                <th>école</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in students %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td><img src="{{user.picture}}" alt="" class="avatar avatar-mini mr-2">{{user.FirstName}}</td>
+                <td>{{user.LastName}}</td>
+                <td>{{user.email}}</td>
+                <td>Prof réf</td>
+                <td>{% for school in user.schools %}{{school.city}}{% endfor %}</td>
+                <td><a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

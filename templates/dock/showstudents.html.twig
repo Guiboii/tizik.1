@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Tableau de bord {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="jumbotron mt-3">
+        <h1 class="h1">Tableau de bord</h1>
+        <div class="row">
+            <div class="col">
+                <a href="#" class="btn btn-primary btn-lg">Votre journée</a>
+            </div>
+            <div class="col">
+                    <a href="#" class="btn btn-primary btn-lg">Vos élèves</a>
+            </div>
+            <div class="col">
+                    <a href="#" class="btn btn-primary btn-lg">Vos collègues</a>
+            </div>
+            <div class="col">
+                    <a href="#" class="btn btn-primary btn-lg">Vos activités</a>
+            </div>
+        </div>
+    </div>
+        
+
+    <div class="row">
+        <div class="col-md-2 mr-4 text-center">
+            <p>Les prochains évènements</p>
+        </div>
+        <div class="col-md-8">
+            <h2>Vos dernières activités</h2>
+                {% for i in 0..2 %}
+                    <div class="row text-center">
+                        <div class="card bg-light mb-3">
+                            <div class="card-header text-center">
+                                <h2>{{ title }}</h2>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{ introduction }}</h4>
+                            </div>
+                            <p class="card-text text-center">{{ students }}</p>
+                        </div>
+                    </div>    
+                {% endfor %}
+        </div>
+        <div class="col">
+                <div class="row">
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-secondary mb-1">La Boîte d'anche</a>
+                        <a href="#" class="btn btn-secondary mb-1">Partothèque</a>
+                        <a href="#" class="btn btn-secondary mb-1">Matériel</a>
+                        <a href="#" class="btn btn-secondary mb-1">Gérer un concert</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>  
+{% endblock %}

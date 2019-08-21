@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ student.fullname }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <a class="btn btn-primary" href="{{ path ('student') }}">Retour aux listes</a>
+            <div class="col text-center">
+                <div class="card-header text-center">
+                    <h1>{{ student.fullname }}</h1>
+                </div>
+            </div>
+            <button class="btn btn-primary">Contacter</button>
+        </div>
+        <div class="row">
+            <div class="col-2 mr-2 text-center">
+                <div class="row">
+                    <h2>agenda</h2>
+                </div>
+            </div>
+            <div class="col-8 text-center">
+                <h2>dernières activités</h2>
+            </div>
+            <div class="col ml-2 text-center">
+                <h2>menu</h2>
+                <div class="row">
+                        <div class="col text-center">
+                            <a href="#" class="btn btn-secondary mb-1">Projets</a>
+                            <a href="#" class="btn btn-secondary mb-1">Compétences</a>
+                            <a href="#" class="btn btn-secondary mb-1">Matériel</a>
+                            <a href="#" class="btn btn-secondary mb-1">Concerts</a>
+                            <a href="#" class="btn btn-secondary mb-1">La Boîte d'anche</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

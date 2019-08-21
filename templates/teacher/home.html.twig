@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bonjour {{ user.fullName }}{% endblock %}
+
+{% block body %}
+    <div class="container mb-3">
+        <h2 class="text-right">
+            {{ user.fullName }} {{user.id}}
+        </h2>
+        <div class="container-fluid">
+    <h1 class="my-5">Bienvenue sur le tableau de bord</h1>
+        <a href="/teacher/school_add" class="href"><button class="btn-info">Ajouter un employeur</button></a>
+        <h4>Vos écoles</h4>
+        {% for school in user.schools %}
+        <a href="{{ path('school',{'slug': school.slug})}}" class="href"><button class="btn-solid mb-3"><strong>{{ school.schoolName }}</strong> {{ school.slug }}</a></button>
+        <br>
+        {% endfor %}
+</div>
+    </div>
+
+{% endblock %}

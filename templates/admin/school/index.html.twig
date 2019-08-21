@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des écoles{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">Gestion des écoles</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for school in schools %}
+            <tr>
+                <td>{{school.id}}</td>
+                <td>{{school.title}}</td>
+                <td>{{school.city}}</td>
+                <td>{{school.address}}</td>
+                <td><a href="{{ path('school_admin',{'slug': school.slug})}}" class="btn btn-primary"><i class="fas fa-users"></i></a>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% set url = path('student_show', {'slug': student.slug}) %}
+
+<div class="col-md-4">
+    <div class="card bg-light mb-3">
+        <div class="card-header text-center">
+            {{ student.fullname }}
+        </div>
+
+        <a href="{{ url }}">
+            <img src="http://placehold.it/200x200" alt="Avatar de l'élève" style="height: 200px; width: 100%; display: block">
+        </a>
+
+        <div class="card-body">
+            <h4 class="card-title">
+                <a href="{{ url }}">
+                    une description de l'élève
+                </a>
+            </h4>
+            <a href="{{ url }}" class="btn btn-secondary">Profil</a>    
+        </div>
+    </div>
+</div>
