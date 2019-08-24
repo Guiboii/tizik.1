@@ -16,8 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(
- *  fields={"email"},
- *  message="Un autre utilisateur s'est déjà inscrit avec cette adresse email, merci de la modifier"
+ *  fields={"username"},
+ *  message="Un autre utilisateur s'est déjà inscrit avec ce nom, merci de le modifier"
  * )
  */
 class User implements UserInterface
@@ -46,6 +46,12 @@ class User implements UserInterface
      * @Assert\Email(message="Veuillez renseigner un email valide !")
      */
     private $email;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom d'utilisateur !")
+     */
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -69,26 +75,9 @@ class User implements UserInterface
     private $slug;
 
     /**
-     * 
-     * @ORM\ManyToMany(targetEntity="App\Entity\School", mappedBy="user")
-     * 
-     */
-    private $schools;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role")
      */
     private $userRoles;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="students")
-     */
-    private $mentor;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="mentor")
-     */
-    private $students;
 
     /**
      * Permet d'initialiser le slug
@@ -112,10 +101,9 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->schools = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
-        $this->students = new ArrayCollection();
     }
+
     public function getFullName() {
         return "{$this->firstName} {$this->lastName}";
     }
@@ -198,30 +186,14 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|School[]
-     */
-    public function getSchools(): Collection
+    public function getUsername(): ?string
     {
-        return $this->schools;
+        return $this->username;
     }
 
-    public function addSchool(School $school): self
+    public function setUsername(string $username): self
     {
-        if (!$this->schools->contains($school)) {
-            $this->schools[] = $school;
-            $school->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSchool(School $school): self
-    {
-        if ($this->schools->contains($school)) {
-            $this->schools->removeElement($school);
-            $school->removeUser($this);
-        }
+        $this->username = $username;
 
         return $this;
     }
@@ -242,11 +214,33 @@ class User implements UserInterface
 
     public function getSalt() {}
 
-    public function getUsername() {
-        return $this->email;
+    public function eraseCredentials() {}
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRole(): Collection
+    {
+        return $this->Role;
     }
 
-    public function eraseCredentials() {}
+    public function addRole(Role $role): self
+    {
+        if (!$this->Role->contains($role)) {
+            $this->Role[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->Role->contains($role)) {
+            $this->Role->removeElement($role);
+        }
+
+        return $this;
+    }
 
     /**
      * @return Collection|Role[]
@@ -256,64 +250,26 @@ class User implements UserInterface
         return $this->userRoles;
     }
 
-    public function addUserRole(Role $userRole): self
+    public function setUserRoles(Role $userRole): self
     {
-        if (!$this->userRoles->contains($userRole)) {
-            $this->userRoles[] = $userRole;
-            $userRole->addUser($this);
+        $this->addUserRoles($userRole);
+
+        return $this;
+    }
+
+    public function addUserRoles(Role $userRoles): self
+    {
+        if (!$this->userRoles->contains($userRoles)) {
+            $this->userRoles[] = $userRoles;
         }
 
         return $this;
     }
 
-    public function removeUserRole(Role $userRole): self
+    public function removeUserRoles(Role $userRoles): self
     {
-        if ($this->userRoles->contains($userRole)) {
-            $this->userRoles->removeElement($userRole);
-            $userRole->removeUser($this);
-        }
-
-        return $this;
-    }
-
-    public function getMentor(): ?self
-    {
-        return $this->mentor;
-    }
-
-    public function setMentor(?self $mentor): self
-    {
-        $this->mentor = $mentor;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|self[]
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(self $student): self
-    {
-        if (!$this->students->contains($student)) {
-            $this->students[] = $student;
-            $student->setMentor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(self $student): self
-    {
-        if ($this->students->contains($student)) {
-            $this->students->removeElement($student);
-            // set the owning side to null (unless already changed)
-            if ($student->getMentor() === $this) {
-                $student->setMentor(null);
-            }
+        if ($this->userRoles->contains($userRoles)) {
+            $this->userRoles->removeElement($userRoles);
         }
 
         return $this;

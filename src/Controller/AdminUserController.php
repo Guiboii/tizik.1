@@ -25,6 +25,20 @@ class AdminUserController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet d'afficher un utilisateur
+     *
+     * @Route("/admin/users/{slug}", name="user_show")
+     */
+    public function moderateRole(User $user)
+    {
+
+        return $this->render('admin/user/show.html.twig', [
+            'user' => $user,
+            'form' => $form
+        ]);
+    }
+
      /**
      * Permet d'afficher la liste des enseignants
      * 

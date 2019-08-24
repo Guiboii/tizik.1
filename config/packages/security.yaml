@@ -9,7 +9,7 @@ security:
         in_database:
             entity:
                 class: App\Entity\User
-                property: email
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -40,6 +40,6 @@ security:
     access_control:
          - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/teacher, roles: ROLE_TEACHER }
-         - { path: ^/student, roles: ROLE_STUDENT }
+         - { path: ^/teacher, roles: [ROLE_TEACHER, ROLE_VERIFIED] }
+         - { path: ^/student, roles: [ROLE_STUDENT, ROLE_VERIFIED] }
          - { path: ^/profile, roles: ROLE_USER }

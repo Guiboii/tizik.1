@@ -51,15 +51,13 @@ class AccountController extends Controller
     public function logout() {}
     
     /**
-     * Permet d'afficher le formulaire d'inscription des autodidactes
+     * Permet d'afficher le formulaire d'inscription
      *
      * @Route("/register", name="account_register")
      * 
      * @return Response
      */
     public function register(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
-
-        $teacherRole = $role->findOneBy(['description' => 'Enseignant']);
 
         $user = new User();
 
@@ -69,8 +67,7 @@ class AccountController extends Controller
 
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
-            $user   ->setHash($hash)
-                    ->addUserRole($teacherRole);
+            $user   ->setHash($hash);
 
             $manager->persist($user);
             $manager->flush();
