@@ -33,8 +33,6 @@ class AppFixtures extends Fixture
             $manager->persist($city);
             $cities[] = $city;
         }
-        //$manager->flush();
-                print_r($cities);
         return $cities;
     }
 

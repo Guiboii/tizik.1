@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Role;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,6 +14,7 @@ class ChoiceRoleType extends ApplicationType
     {
         $builder
             ->add('role', EntityType::class, array(
+                'multiple' => true,
                 'class' => Role::class,
                 'choice_label' => 'description',
                 'label' => "Quel rôle souhaitez-vous avoir dans TiZiK ?" ,

@@ -30,14 +30,6 @@ class RegistrationType extends ApplicationType
             ->add('picture', UrlType::class, $this->getConfiguration("Photo de profil", "URL de votre avatar..."))
             ->add('hash', PasswordType::class, $this->getConfiguration("Mot de passe", "Choisissez un bon mot de passe"))
             ->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmation de votre mot de passe", "Veuillez confirmer votre mot de passe"))
-            ->add('userRoles', EntityType::class, array(
-                //'multiple' => true,
-                'choice_loader' => function() {
-        return Role::getPublicRoles();},
-                'class' => Role::class,
-                'choice_label' => 'description',
-                'label' => "Quel est le type de compte que vous souhaitez avoir sur TiZiK ?",
-                'placeholder' => "Indiquez votre role dans une école de musique"))
             ;
     }
 

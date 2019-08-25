@@ -29,8 +29,14 @@ class Role
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="userRoles")
+     */
+    private $users;
+
     public function __construct()
     {
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,5 +73,33 @@ class Role
         $roleoption = ['ROLE_TEACHER'=>'Enseignant','ROLE_STUDENT' => 'Etudiant'];
 
         return $roleoption;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addUserRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeUserRole($this);
+        }
+
+        return $this;
     }
 }

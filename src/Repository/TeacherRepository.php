@@ -19,6 +19,16 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
+    public function findByVerified($manager, $users){
+
+        $query = $manager->createQuery(
+            "SELECT t FROM App\Entity\Teacher t 
+            JOIN t.User u "
+            );
+        
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Teacher[] Returns an array of Teacher objects
 //     */

@@ -1,10 +1,12 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}{{ school.schoolName}}{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <h1 class="my-5">Élèves inscrits à {{ school.schoolName}}</h1>
+<div class="container">
+    <h1 class="my-5">Tâches à accomplir</h1>
+    <br>
+    <h2>Demandes de validation en attente</h2>
     <table class="table table-hover">
         <thead>
             <tr>

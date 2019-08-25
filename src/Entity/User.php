@@ -75,7 +75,7 @@ class User implements UserInterface
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Role")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", inversedBy="users")
      */
     private $userRoles;
 
@@ -219,57 +219,24 @@ class User implements UserInterface
     /**
      * @return Collection|Role[]
      */
-    public function getRole(): Collection
-    {
-        return $this->Role;
-    }
-
-    public function addRole(Role $role): self
-    {
-        if (!$this->Role->contains($role)) {
-            $this->Role[] = $role;
-        }
-
-        return $this;
-    }
-
-    public function removeRole(Role $role): self
-    {
-        if ($this->Role->contains($role)) {
-            $this->Role->removeElement($role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Role[]
-     */
     public function getUserRoles(): Collection
     {
         return $this->userRoles;
     }
 
-    public function setUserRoles(Role $userRole): self
+    public function addUserRole(Role $userRole): self
     {
-        $this->addUserRoles($userRole);
-
-        return $this;
-    }
-
-    public function addUserRoles(Role $userRoles): self
-    {
-        if (!$this->userRoles->contains($userRoles)) {
-            $this->userRoles[] = $userRoles;
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
         }
 
         return $this;
     }
 
-    public function removeUserRoles(Role $userRoles): self
+    public function removeUserRole(Role $userRole): self
     {
-        if ($this->userRoles->contains($userRoles)) {
-            $this->userRoles->removeElement($userRoles);
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
         }
 
         return $this;

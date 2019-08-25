@@ -51,6 +51,27 @@ class UserRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    public function findUsersByUnverified($manager, $users)
+    {
+        $query = $manager->createQuery(
+            "SELECT u FROM App\Entity\User u 
+            JOIN u.userRoles r WHERE r.description != 'Valide'"
+            );
+        
+        return $query->getResult();
+    }
+
+    public function findTeachers($manager, $users)
+    {
+        $query = $manager->createQuery(
+            "SELECT u FROM App\Entity\User u 
+            JOIN u.userRoles r 
+            WHERE r.description = 'Enseignant'"
+            );
+        
+        return $query->getResult();
+    }
     /*
     public function findByExampleField($value)
     {

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Entity\Teacher;
 use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
@@ -51,13 +52,13 @@ class AccountController extends Controller
     public function logout() {}
     
     /**
-     * Permet d'afficher le formulaire d'inscription
+     * Permet d'afficher le formulaire d'inscription d'un utilisateur
      *
      * @Route("/register", name="account_register")
      * 
      * @return Response
      */
-    public function register(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
+    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
 
         $user = new User();
 
@@ -84,6 +85,127 @@ class AccountController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * Permet d'afficher le formulaire d'inscription d'un(e) enseignant(e)
+     *
+     * @Route("/register-teacher", name="teacher_register")
+     * 
+     * @return Response
+     */
+    public function teacherRegister(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
+
+        $user = new User();
+        $teacher = new Teacher();
+        
+        $teacherRole = $role->findOneByTitle('ROLE_TEACHER');
+
+        $form = $this->createForm(RegistrationType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder->encodePassword($user, $user->getHash());
+            $user   ->setHash($hash)
+                    ->addUserRole($teacherRole);
+
+            $manager->persist($user);
+
+            $teacher ->setUser($user);
+            
+            $manager->persist($teacher);
+            
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre compte a bien été créé ! Vous pouvez maintenant vous connecter !"
+            );
+
+            return $this->redirectToRoute('account_login');
+        }
+
+        return $this->render('account/registration.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le formulaire d'inscription d'un(e) etudiant(e)
+     *
+     * @Route("/register-student", name="student_register")
+     * 
+     * @return Response
+     */
+    public function studentRegister(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
+
+        $user = new User();
+
+        $studentRole = $role->findOneByTitle('ROLE_STUDENT');
+
+        $form = $this->createForm(RegistrationType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder->encodePassword($user, $user->getHash());
+            $user   ->setHash($hash)
+                    ->addUserRole($studentRole);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre compte a bien été créé ! Vous pouvez maintenant vous connecter !"
+            );
+
+            return $this->redirectToRoute('account_login');
+        }
+
+        return $this->render('account/registration.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le formulaire d'inscription d'un foyer
+     *
+     * @Route("/register-household", name="household_register")
+     * 
+     * @return Response
+     */
+    public function householdRegister(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
+
+        $user = new User();
+
+        $householdRole = $role->findOneByTitle('ROLE_HOUSEHOLD');
+
+        $form = $this->createForm(RegistrationType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder->encodePassword($user, $user->getHash());
+            $user   ->setHash($hash)
+                    ->addUserRole($householdRole);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre compte a bien été créé ! Vous pouvez maintenant vous connecter !"
+            );
+
+            return $this->redirectToRoute('account_login');
+        }
+
+        return $this->render('account/registration.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
     /**
      * Affichage du profil utilisateur 1/ autodidacte
      * 

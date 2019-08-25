@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="{{path ('homepage') }}">TiZiK</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -6,17 +6,14 @@
 
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
-            {% if app.user %}
             <li class="nav-item active">
-                <a class="nav-link" href="{{path ('dock') }}">Dock<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{path ('admin_dashboard') }}">Dashboard<span class="sr-only">(current)</span></a>
             </li>
-            {% else %}
             <li class="nav-item active">
-                <a class="nav-link" href="{{path ('homepage') }}">Accueil<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{path ('users_index') }}">Utilisateurs<span class="sr-only">(current)</span></a>
             </li>
-            {% endif %}
             <li class="nav-item active">
-                <a class="nav-link" href="#">Forum<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ path ('teachers_index')}}">Enseignant(e)s<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Communauté<span class="sr-only">(current)</span></a>
