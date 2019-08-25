@@ -55,8 +55,8 @@ class UserRepository extends ServiceEntityRepository
     public function findUsersByUnverified($manager, $users)
     {
         $query = $manager->createQuery(
-            "SELECT u FROM App\Entity\User u 
-            JOIN u.userRoles r WHERE r.description != 'Valide'"
+            "SELECT DISTINCT u FROM App\Entity\User u 
+            JOIN u.userRoles r WHERE r.description = 'Enseignant' AND r.description != 'Valide' "
             );
         
         return $query->getResult();
