@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class City
 {
@@ -33,6 +35,27 @@ class City
      */
     private $households;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * Permet d'initialiser le slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeSlug() {
+        if(empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
+    }
+    
+
     public function __construct()
     {
         $this->schools = new ArrayCollection();
@@ -48,12 +71,12 @@ class City
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): self
+    public function setName(string $name): self
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
@@ -152,6 +175,18 @@ class City
                     $household->setCity(null);
                 }
             }
+
+            return $this;
+        }
+
+        public function getSlug(): ?string
+        {
+            return $this->slug;
+        }
+
+        public function setSlug(string $slug): self
+        {
+            $this->slug = $slug;
 
             return $this;
         }

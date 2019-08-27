@@ -59,7 +59,7 @@ class AdminTeacherController extends AbstractController
                 "Utilisateur accepté"
             );
 
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_home');
         }
 
         return $this->render('admin/user/valid.html.twig', [

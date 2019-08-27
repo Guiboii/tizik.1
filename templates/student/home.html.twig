@@ -1,4 +1,4 @@
-{% extends 'teacher/base.html.twig' %}
+{% extends 'student/base.html.twig' %}
 
 {% block title %}Bonjour {{ user.fullName }}{% endblock %}
 
@@ -9,8 +9,8 @@
         </h2>
         <div class="container-fluid">
     <h1 class="my-5">Bienvenue sur le tableau de bord</h1>
-        <a href="/teacher/school_add" class="href"><button class="btn-info">Ajouter un employeur</button></a>
-        <h4>Vos écoles</h4>
+        <a href="/teacher/school_add" class="href"><button class="btn-info">Ajouter une activité</button></a>
+        <h4>Vos activités</h4>
         {#{% for school in teacher.institute %}
         <a href="{{ path('school',{'slug': school.slug})}}" class="href"><button class="btn-solid mb-3"><strong>{{ school.schoolName }}</strong> {{ school.slug }}</a></button>
         <br>

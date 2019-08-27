@@ -19,18 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminUserController extends AbstractController
 {
-    /**
-     * Affiche le tableau de bord de l'administration
-     *
-     * @Route("/admin", name="admin_dashboard")
-     */
-    public function adminDashboard(ObjectManager $manager, UserRepository $repo){
-
-        $users = $repo->findUsersByUnverified($manager, $repo);
-
-        return $this->render('admin/home.html.twig', [
-            'users' => $users]);
-    }
 
     /**
      * Permet d'afficher la liste des utilisateurs
