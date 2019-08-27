@@ -80,6 +80,16 @@ class User implements UserInterface
     private $userRoles;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validation;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $wish;
+
+    /**
      * Permet d'initialiser le slug
      *
      * @ORM\PrePersist
@@ -238,6 +248,30 @@ class User implements UserInterface
         if ($this->userRoles->contains($userRole)) {
             $this->userRoles->removeElement($userRole);
         }
+
+        return $this;
+    }
+
+    public function getValidation(): ?bool
+    {
+        return $this->validation;
+    }
+
+    public function setValidation(bool $validation): self
+    {
+        $this->validation = $validation;
+
+        return $this;
+    }
+
+    public function getWish(): ?string
+    {
+        return $this->wish;
+    }
+
+    public function setWish(?string $wish): self
+    {
+        $this->wish = $wish;
 
         return $this;
     }

@@ -21,18 +21,18 @@ class Teacher
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\School", inversedBy="teachers")
      */
-    private $Institute;
+    private $institute;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", inversedBy="teachers")
      */
-    private $Course;
+    private $course;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $User;
+    private $user;
 
     public function __construct()
     {

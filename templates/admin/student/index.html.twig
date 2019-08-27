@@ -1,10 +1,10 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Administration des enseignants{% endblock %}
+{% block title %}Administration des étudiants{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
-    <h1 class="my-5">Gestion des enseignants</h1>
+    <h1 class="my-5">Gestion des étudiants</h1>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -12,20 +12,19 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>email</th>
-                <th>Activité principale</th>
+                <th>Référent</th>
                 <th>école</th>
             </tr>
         </thead>
         <tbody>
-            {% for teacher in teachers %}
-            {% set infos = teacher.user %}
+            {% for student in students %}
             <tr>
-                <td>{{infos.id}}</td>
-                <td>{{infos.FirstName}}</td>
-                <td>{{infos.LastName}}</td>
-                <td>{{infos.email}}</td>
-                <td>discipline</td>
-                {#<td>{% for school in teacher.schools %}{{school.city}}{% endfor %}</td>#}
+                <td>{{student.id}}</td>
+                <td>{{student.firstName}}</td>
+                <td>{{student.lastName}}</td>
+                <td>{{student.email}}</td>
+                <td>Prof réf</td>
+                {#<td>{% for school in student.schools %}{{school.city}}{% endfor %}</td>#}
                 <td><a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
             </tr>

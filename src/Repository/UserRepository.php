@@ -30,6 +30,15 @@ class UserRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
+    public function findSimpleUsers($manager, $user)
+    {
+        $query = $manager->createQuery(
+            "SELECT u FROM App\Entity\User u 
+            WHERE u.wish = 'simple' "
+            );
+        
+        return $query->getResult();
+    }
    
     public function findStudentsBySchools($manager, $schoolid, $user)
     {
@@ -55,8 +64,7 @@ class UserRepository extends ServiceEntityRepository
     public function findUsersByUnverified($manager, $users)
     {
         $query = $manager->createQuery(
-            "SELECT DISTINCT u FROM App\Entity\User u 
-            JOIN u.userRoles r WHERE r.description = 'Enseignant' AND r.description != 'Valide' "
+            "SELECT DISTINCT u FROM App\Entity\User u  WHERE u.validation = FALSE"
             );
         
         return $query->getResult();
@@ -72,6 +80,18 @@ class UserRepository extends ServiceEntityRepository
         
         return $query->getResult();
     }
+
+    public function findStudents($manager, $user)
+    {
+        $query = $manager->createQuery(
+            "SELECT u FROM App\Entity\User u 
+            JOIN u.userRoles r 
+            WHERE r.description = 'Etudiant'"
+            );
+        
+        return $query->getResult();
+    }
+
     /*
     public function findByExampleField($value)
     {

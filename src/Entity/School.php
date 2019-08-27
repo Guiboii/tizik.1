@@ -53,15 +53,14 @@ class School
     private $city;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="villes")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $ville;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", mappedBy="Institute")
      */
     private $teachers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="School")
+     */
+    private $students;
 
     /**
      * Permet d'initialiser le slug
@@ -86,6 +85,7 @@ class School
     {
         $this->user = new ArrayCollection();
         $this->teachers = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
      public function __toString()
@@ -218,6 +218,37 @@ class School
         if ($this->teachers->contains($teacher)) {
             $this->teachers->removeElement($teacher);
             $teacher->removeInstitute($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+            // set the owning side to null (unless already changed)
+            if ($student->getSchool() === $this) {
+                $student->setSchool(null);
+            }
         }
 
         return $this;

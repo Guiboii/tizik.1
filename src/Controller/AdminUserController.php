@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\School;
+use App\Entity\Teacher;
 use App\Form\ChoiceRoleType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\RoleRepository;
@@ -23,11 +24,9 @@ class AdminUserController extends AbstractController
      *
      * @Route("/admin", name="admin_dashboard")
      */
-    public function adminDashboard(ObjectManager $manager){
+    public function adminDashboard(ObjectManager $manager, UserRepository $repo){
 
-        $query = $manager->createQuery("SELECT t FROM App\Entity\User t JOIN t.userRoles r WHERE r.description = 'Verified'" );
-
-        $users = $query->getResult();
+        $users = $repo->findUsersByUnverified($manager, $repo);
 
         return $this->render('admin/home.html.twig', [
             'users' => $users]);
@@ -40,10 +39,10 @@ class AdminUserController extends AbstractController
      */
     public function index(ObjectManager $manager, UserRepository $repo)
     {
-        $users = $repo->findUsersByUnverified($manager, $repo);
+        $users = $repo->findSimpleUsers($manager, $repo);
 
         return $this->render('admin/user/index.html.twig', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 
@@ -52,83 +51,32 @@ class AdminUserController extends AbstractController
      *
      * @Route("/admin/users/{slug}", name="user_show")
      */
-    public function moderateRole(User $user, ObjectManager $manager)
+
+    public function showUser(User $user, ObjectManager $manager)
     {
-        //$role = $user->getUserRoles();
-        //dump($role);
-
-        //$form = $this->createForm(ChoiceRoleType::class, $user);
-        
-        //$form->handleRequest($request);
-        
-        //if($form->isSubmitted() && $form->isValid()) {
-
-        //    $manager->persist($user);
-        //    $manager->flush();
-
-        //    $this->addFlash(
-        //        'success',
-        //        "Votre compte a bien été créé ! Vous pouvez maintenant vous connecter !"
-        //    );
-
-        //    return $this->redirectToRoute('account_login');
-        //}
-        
         $roles = $user->getUserRoles();
 
         dump($roles);
                 return $this->render('admin/user/show.html.twig', [
             'user' => $user,
             'roles' => $roles
-        //    'form' => $form
         ]);
     }
 
     /**
-     * Permet de valider l'inscription d'un utilisateur
-     * 
-     * @Route("/admin/user/{slug}/valid", name="valid_user")
+     * Permet de valider la demande d'un utilisateur
      *
-     * @return void
+     * @Route("/admin/{wish}/{slug}/valid", name="user_valid")
      */
-    public function validUser(User $user, RoleRepository $repo){
 
-        $roles = $repo->findAll();
+    public function validUser(User $user, ObjectManager $manager)
+    {
+        $roles = $user->getUserRoles();
 
-        return $this->render('admin/user/valid.html.twig', [
+            return $this->render('admin/user/show.html.twig', [
             'user' => $user,
             'roles' => $roles
         ]);
-    }
-
-     /**
-     * Permet d'afficher la liste des enseignants
-     * 
-     * @Route("/admin/teachers", name="teachers_index")
-     */
-   public function teacherIndex(ObjectManager $manager, TeacherRepository $repo, UserRepository $users){
-        
-        $teachers = $repo->findByVerified($manager, $users);
-
-        return $this->render('admin/user/teacher_index.html.twig', [
-            'teachers' => $teachers,
-            ]);
-    }
-
-     /**
-     * Permet d'afficher la liste des étudiants
-     * 
-     * @Route("/admin/students", name="students_index")
-     */
-    public function studentIndex(ObjectManager $manager)
-    {
-        $query = $manager->createQuery("SELECT t FROM App\Entity\User t JOIN t.userRoles r WHERE r.description = 'Etudiant'" );
-
-        $students = $query->getResult();
-
-        return $this->render('admin/user/student_index.html.twig', [
-            'students' => $students]);
-
     }
 
     /**

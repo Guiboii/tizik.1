@@ -11,16 +11,20 @@
         <thead>
             <tr>
                 <th>Nom</th>
-                <th>Role</th>
+                <th>Role demandé</th>
                 <th>Discipline</th>
+                <th>Ecoles</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
             <tr>
                 <td>{{ user.fullName }}</td>
-                <td>Role</td>
+                <td>{{ user.wish }}</td>
                 <td>Discipline</td>
+                <td>Ecoles</td>
+                <td> <a href="{{ path ('user_valid', {'slug' : user.slug, 'wish' : user.wish})}}" class="btn btn-primary"><i class="fas fa-check"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>

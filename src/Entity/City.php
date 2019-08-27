@@ -21,7 +21,7 @@ class City
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Name;
+    private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="city")
@@ -29,14 +29,15 @@ class City
     private $schools;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="ville", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Household", mappedBy="City")
      */
-    private $villes;
+    private $households;
 
     public function __construct()
     {
         $this->schools = new ArrayCollection();
         $this->villes = new ArrayCollection();
+        $this->households = new ArrayCollection();
     }
 
    
@@ -123,4 +124,35 @@ class City
    {
       return strval( $this->getId() );
    }
+
+        /**
+         * @return Collection|Household[]
+         */
+        public function getHouseholds(): Collection
+        {
+            return $this->households;
+        }
+
+        public function addHousehold(Household $household): self
+        {
+            if (!$this->households->contains($household)) {
+                $this->households[] = $household;
+                $household->setCity($this);
+            }
+
+            return $this;
+        }
+
+        public function removeHousehold(Household $household): self
+        {
+            if ($this->households->contains($household)) {
+                $this->households->removeElement($household);
+                // set the owning side to null (unless already changed)
+                if ($household->getCity() === $this) {
+                    $household->setCity(null);
+                }
+            }
+
+            return $this;
+        }
 }

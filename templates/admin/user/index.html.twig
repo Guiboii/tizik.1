@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container-fluid">
-    <h1 class="my-5">Demandes de validation</h1>
+    <h1 class="my-5">Utilisateurs enregistrés</h1>
     <table class="table table-hover">
         <thead>
             <tr class="text-center">
@@ -13,7 +13,6 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>email</th>
-                <th>écoles</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +23,7 @@
                 <td><img src="{{user.picture}}" alt="" class="avatar avatar-mini mr-2">{{user.FirstName}}</td>
                 <td>{{user.LastName}}</td>
                 <td>{{user.email}}</td>
-                {#<td>{% for institute in user.institutes %}{{school.title}}{% endfor %}</td>#}
-                <td><a href="{{ path ('valid_user', {'slug' : user.slug})}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <td><a href="{{ path ('user_show', {'slug' : user.slug })}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
             </tr>
             {% endfor %}

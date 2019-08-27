@@ -23,12 +23,23 @@ class TeacherRepository extends ServiceEntityRepository
 
         $query = $manager->createQuery(
             "SELECT t FROM App\Entity\Teacher t 
-            JOIN t.User u "
+            JOIN t.user u "
             );
         
         return $query->getResult();
     }
 
+    public function findUsers($manager, $users){
+
+        $query = $manager->createQuery(
+        "SELECT t FROM App\Entity\Teacher t
+        JOIN t.user u
+        WHERE u.teacher = 58"
+        );
+
+        return $query->getResult();
+
+    }
 //    /**
 //     * @return Teacher[] Returns an array of Teacher objects
 //     */

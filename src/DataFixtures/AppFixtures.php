@@ -20,7 +20,65 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    public function schools(ObjectManager $manager, $faker)
+    //création des roles
+    public function createRoles(ObjectManager $manager)
+    {
+        $adminRole = new Role();
+        $adminRole  ->setTitle('ROLE_ADMIN')
+                    ->setDescription('Administrateur');
+            $manager->persist($adminRole);
+        $teacherRole = new Role();
+        $teacherRole->setTitle('ROLE_TEACHER')
+                    ->setDescription('Enseignant');
+            $manager->persist($teacherRole);
+        $studentRole = new Role();
+        $studentRole->setTitle('ROLE_STUDENT')
+                    ->setDescription('Etudiant');
+        $manager->persist($studentRole);
+        $parentRole = new Role();
+        $parentRole->setTitle('ROLE_PARENT')
+                    ->setDescription('Parent');
+        $manager->persist($parentRole);
+
+        //création d'utilisateurs test
+        $adminUser = new User();
+        $adminUser  ->setFirstName('Guillaume')
+                    ->setLastName('Hamet')
+                    ->setEmail('admin@tizik.com')
+                    ->setPicture('https://avatars3.githubusercontent.com/u/40663377?s=400&u=03c1cf6d2b38512a8b7ff0f616afa460236aa12a&v=4')
+                    ->setUsername('admin')
+                    ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+                    ->addUserRole($adminRole)
+                    ->setValidation(TRUE);
+            $manager->persist($adminUser);
+
+        $teacherUser = new User();
+        $teacherUser->setFirstName('Teacher')
+                    ->setLastName('Teacher')
+                    ->setEmail('teacher@tizik.com')
+                    ->setPicture('https://randomuser.me/api/portraits/1')
+                    ->setUsername('teacher')
+                    ->setHash($this->encoder->encodePassword($teacherUser, 'password'))
+                    ->addUserRole($teacherRole)
+                    ->setValidation(TRUE);
+            $manager->persist($teacherUser);
+
+        //création du compte student
+        $studentUser = new User();
+        $studentUser->setFirstName('Student')
+                    ->setLastName('Student')
+                    ->setEmail('student@tizik.com')
+                    ->setPicture('https://randomuser.me/api/portraits/1')
+                    ->setUsername('student')
+                    ->setHash($this->encoder->encodePassword($studentUser, 'password'))
+                    ->addUserRole($studentRole)
+                    ->setValidation(TRUE);
+        $manager->persist($studentUser);
+
+        $manager->flush();
+    }
+
+    /* public function schools(ObjectManager $manager, $faker)
     {
     //création des villes
         $cities = [];
@@ -192,6 +250,6 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
-
+*/
 
 }

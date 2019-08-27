@@ -26,16 +26,22 @@ class Discipline
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Type;
+    private $type;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", mappedBy="Course")
      */
     private $teachers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Student", mappedBy="Activity")
+     */
+    private $students;
+
     public function __construct()
     {
         $this->teachers = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,6 +96,34 @@ class Discipline
         if ($this->teachers->contains($teacher)) {
             $this->teachers->removeElement($teacher);
             $teacher->removeCourse($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->addActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+            $student->removeActivity($this);
         }
 
         return $this;

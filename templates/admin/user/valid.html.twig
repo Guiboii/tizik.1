@@ -11,24 +11,11 @@
                     <h1>{{ user.fullname }}</h1>
                 </div>
             </div>
-            <button class="btn btn-primary">Contacter</button>
         </div>
-        <div class="container text-center">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Role demandé</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    <tr>
-                    {% for role in roles %}
-                        <td>{{role.description}}</td>
-                    {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="row">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+                <button type="submit" class="btn btn-success">Valider</button>
+            {{ form_end(form) }}
     </div>
 {% endblock %}

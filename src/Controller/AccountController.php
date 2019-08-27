@@ -58,7 +58,7 @@ class AccountController extends Controller
      * 
      * @return Response
      */
-    public function register(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
+    public function register(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
 
         $user = new User();
 
@@ -68,7 +68,9 @@ class AccountController extends Controller
 
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
-            $user   ->setHash($hash);
+            $user   ->setHash($hash)
+                    ->setValidation(TRUE)
+                    ->setWish('simple');
 
             $manager->persist($user);
             $manager->flush();
@@ -96,9 +98,8 @@ class AccountController extends Controller
     public function teacherRegister(Request $request, ObjectManager $manager, RoleRepository $role, UserPasswordEncoderInterface $encoder){
 
         $user = new User();
-        $teacher = new Teacher();
         
-        $teacherRole = $role->findOneByTitle('ROLE_TEACHER');
+        $teacherRole = 'teachers';
 
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -107,13 +108,10 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->addUserRole($teacherRole);
+                    ->setValidation(FALSE)
+                    ->setWish($teacherRole);
 
             $manager->persist($user);
-
-            $teacher ->setUser($user);
-            
-            $manager->persist($teacher);
             
             $manager->flush();
 
@@ -141,7 +139,8 @@ class AccountController extends Controller
 
         $user = new User();
 
-        $studentRole = $role->findOneByTitle('ROLE_STUDENT');
+        $studentRole = 'students';
+        
 
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -150,7 +149,8 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->addUserRole($studentRole);
+                    ->setValidation(FALSE)
+                    ->setWish($studentRole);
 
             $manager->persist($user);
             $manager->flush();
@@ -179,7 +179,7 @@ class AccountController extends Controller
 
         $user = new User();
 
-        $householdRole = $role->findOneByTitle('ROLE_HOUSEHOLD');
+        $householdRole = 'households';
 
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -188,7 +188,8 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->addUserRole($householdRole);
+                    ->setValidation(FALSE)
+                    ->setWish($householdRole);
 
             $manager->persist($user);
             $manager->flush();
