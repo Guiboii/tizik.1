@@ -22,27 +22,27 @@ class Household
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="households")
      */
-    private $City;
+    private $city;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="household")
      */
-    private $Student;
+    private $student;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email(message="Veuillez renseigner un email valide !")
      */
-    private $Mail;
+    private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Zipcode;
+    private $zipcode;
 
     public function __construct()
     {
-        $this->Student = new ArrayCollection();
+        $this->student = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,12 +52,12 @@ class Household
 
     public function getCity(): ?City
     {
-        return $this->City;
+        return $this->city;
     }
 
-    public function setCity(?City $City): self
+    public function setCity(?City $city): self
     {
-        $this->City = $City;
+        $this->city = $city;
 
         return $this;
     }
@@ -67,13 +67,13 @@ class Household
      */
     public function getStudent(): Collection
     {
-        return $this->Student;
+        return $this->student;
     }
 
     public function addStudent(Student $student): self
     {
-        if (!$this->Student->contains($student)) {
-            $this->Student[] = $student;
+        if (!$this->student->contains($student)) {
+            $this->student[] = $student;
             $student->setHousehold($this);
         }
 
@@ -82,8 +82,8 @@ class Household
 
     public function removeStudent(Student $student): self
     {
-        if ($this->Student->contains($student)) {
-            $this->Student->removeElement($student);
+        if ($this->student->contains($student)) {
+            $this->student->removeElement($student);
             // set the owning side to null (unless already changed)
             if ($student->getHousehold() === $this) {
                 $student->setHousehold(null);
@@ -93,26 +93,26 @@ class Household
         return $this;
     }
 
-    public function getMail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->Mail;
+        return $this->email;
     }
 
-    public function setMail(?string $Mail): self
+    public function setEmail(?string $email): self
     {
-        $this->Mail = $Mail;
+        $this->email = $email;
 
         return $this;
     }
 
     public function getZipcode(): ?string
     {
-        return $this->Zipcode;
+        return $this->zipcode;
     }
 
-    public function setZipcode(string $Zipcode): self
+    public function setZipcode(string $zipcode): self
     {
-        $this->Zipcode = $Zipcode;
+        $this->zipcode = $zipcode;
 
         return $this;
     }

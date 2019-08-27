@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Household;
 use App\Form\ChoiceRoleType;
 use App\Repository\RoleRepository;
+use App\Repository\UserRepository;
 use App\Repository\HouseholdRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,12 +18,12 @@ class AdminHouseholdController extends AbstractController
     /**
      * @Route("/admin/household", name="households_index")
      */
-    public function index(HouseholdRepository $repo)
-    {
-        $households = $repo->findAll();
+    public function householdIndex(ObjectManager $manager, UserRepository $users){
+    
+    $households = $users->findHouseholds($manager, $users);
 
-        return $this->render('admin/household/index.html.twig', [
-            'households' => $households,
+    return $this->render('admin/household/index.html.twig', [
+        'households' => $households,
         ]);
     }
 
@@ -45,9 +46,6 @@ class AdminHouseholdController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $user->addUserRole($role);
             $manager->persist($user);
-
-            $household->setUser($user);
-            $manager->persist($household);
             
             $manager->flush();
 

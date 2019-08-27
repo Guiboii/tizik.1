@@ -92,6 +92,17 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findHouseholds($manager, $user)
+    {
+        $query = $manager->createQuery(
+            "SELECT u FROM App\Entity\User u 
+            JOIN u.userRoles r 
+            WHERE r.description = 'Foyer'"
+            );
+        
+        return $query->getResult();
+    }
+
     /*
     public function findByExampleField($value)
     {

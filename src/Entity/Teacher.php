@@ -36,8 +36,8 @@ class Teacher
 
     public function __construct()
     {
-        $this->Institute = new ArrayCollection();
-        $this->Course = new ArrayCollection();
+        $this->institute = new ArrayCollection();
+        $this->course = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,13 +50,13 @@ class Teacher
      */
     public function getInstitute(): Collection
     {
-        return $this->Institute;
+        return $this->institute;
     }
 
     public function addInstitute(School $institute): self
     {
-        if (!$this->Institute->contains($institute)) {
-            $this->Institute[] = $institute;
+        if (!$this->institute->contains($institute)) {
+            $this->institute[] = $institute;
         }
 
         return $this;
@@ -64,8 +64,8 @@ class Teacher
 
     public function removeInstitute(School $institute): self
     {
-        if ($this->Institute->contains($institute)) {
-            $this->Institute->removeElement($institute);
+        if ($this->institute->contains($institute)) {
+            $this->institute->removeElement($institute);
         }
 
         return $this;
@@ -76,13 +76,13 @@ class Teacher
      */
     public function getCourse(): Collection
     {
-        return $this->Course;
+        return $this->course;
     }
 
     public function addCourse(Discipline $course): self
     {
-        if (!$this->Course->contains($course)) {
-            $this->Course[] = $course;
+        if (!$this->course->contains($course)) {
+            $this->course[] = $course;
         }
 
         return $this;
@@ -90,8 +90,8 @@ class Teacher
 
     public function removeCourse(Discipline $course): self
     {
-        if ($this->Course->contains($course)) {
-            $this->Course->removeElement($course);
+        if ($this->course->contains($course)) {
+            $this->course->removeElement($course);
         }
 
         return $this;
@@ -99,13 +99,14 @@ class Teacher
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(User $User): self
+    public function setUser(User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
+
 }

@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
     }
 
     //création des roles
-    public function createRoles(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $adminRole = new Role();
         $adminRole  ->setTitle('ROLE_ADMIN')
@@ -36,8 +36,8 @@ class AppFixtures extends Fixture
                     ->setDescription('Etudiant');
         $manager->persist($studentRole);
         $parentRole = new Role();
-        $parentRole->setTitle('ROLE_PARENT')
-                    ->setDescription('Parent');
+        $parentRole->setTitle('ROLE_HOUSEHOLD')
+                    ->setDescription('Foyer');
         $manager->persist($parentRole);
 
         //création d'utilisateurs test
@@ -78,23 +78,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    /* public function schools(ObjectManager $manager, $faker)
-    {
-    //création des villes
-        $cities = [];
-        for($i = 1; $i <= 10; $i++) {
-            $city = new City();
-
-            $name = $faker->city();
-            $city->setName($name);
-
-            $manager->persist($city);
-            $cities[] = $city;
-        }
-        return $cities;
-    }
-
-    public function load(ObjectManager $manager)
+    /* public function load(ObjectManager $manager)
     {
         $faker = Factory::create('FR-fr');
         $cities = $this->schools($manager, $faker);
@@ -249,7 +233,6 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
-    }
-*/
+    }*/
 
 }

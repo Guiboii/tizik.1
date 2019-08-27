@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom du foyer</th>
                 <th>Utilisateurs
                     <th>Prénom</th>
                     <th>Email</th>
@@ -21,12 +22,14 @@
             {% for household in households %}
             <tr>
                 <td>{{ household.id }}</td>
-                <td>{% for user in household.student %}
-                    <td><img src="{{user.picture}}" alt="" class="avatar avatar-mini mr-2">{{user.FirstName}}</td>
-                    <td>{{ user.Email }}</td>
-                {% endfor %}</td>
-                <td>{{household.City}}</td>
-                <td>{{household.Zipcode}}</td>
+                <td>{{ household.fullName }}</td>
+                {#<td>{% for user in household.student %}
+                    <td><img src="{{user.picture}}" alt="" class="avatar avatar-mini mr-2">{{user.firstName}}</td>
+                    <td>{{ user.email }}</td>
+                {% endfor %}</td>#}
+                <td>Des utilisateurs</td>
+                {#<td>{{household.city}}</td>
+                <td>{{household.zipcode}}</td>#}
                 <td><a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
             </tr>

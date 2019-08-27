@@ -58,12 +58,12 @@ class Student
 
     public function getSchool(): ?School
     {
-        return $this->School;
+        return $this->school;
     }
 
-    public function setSchool(?School $School): self
+    public function setSchool(?School $school): self
     {
-        $this->School = $School;
+        $this->school = $school;
 
         return $this;
     }
@@ -73,13 +73,13 @@ class Student
      */
     public function getActivity(): Collection
     {
-        return $this->Activity;
+        return $this->activity;
     }
 
     public function addActivity(Discipline $activity): self
     {
-        if (!$this->Activity->contains($activity)) {
-            $this->Activity[] = $activity;
+        if (!$this->activity->contains($activity)) {
+            $this->activity[] = $activity;
         }
 
         return $this;
@@ -87,8 +87,8 @@ class Student
 
     public function removeActivity(Discipline $activity): self
     {
-        if ($this->Activity->contains($activity)) {
-            $this->Activity->removeElement($activity);
+        if ($this->activity->contains($activity)) {
+            $this->activity->removeElement($activity);
         }
 
         return $this;
@@ -96,12 +96,12 @@ class Student
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(User $User): self
+    public function setUser(User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
@@ -120,12 +120,12 @@ class Student
 
     public function getEmail(): ?string
     {
-        return $this->Mail;
+        return $this->email;
     }
 
-    public function setEmail(?string $Mail): self
+    public function setEmail(?string $email): self
     {
-        $this->Mail = $Mail;
+        $this->email = $email;
 
         return $this;
     }
