@@ -20,11 +20,6 @@ class Household
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="households")
-     */
-    private $city;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="household")
      */
     private $student;
@@ -40,6 +35,12 @@ class Household
      */
     private $zipcode;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="households")
+     */
+    private $ville;
+
+
     public function __construct()
     {
         $this->student = new ArrayCollection();
@@ -48,18 +49,6 @@ class Household
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCity(): ?City
-    {
-        return $this->city;
-    }
-
-    public function setCity(?City $city): self
-    {
-        $this->city = $city;
-
-        return $this;
     }
 
     /**
@@ -116,4 +105,17 @@ class Household
 
         return $this;
     }
+
+    public function getVille(): ?City
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?City $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
 }

@@ -9,12 +9,12 @@
         </h2>
         <div class="container-fluid">
     <h1 class="my-5">Bienvenue sur le tableau de bord</h1>
-        <a href="/teacher/school_add" class="href"><button class="btn-info">Ajouter un employeur</button></a>
+        <a href="{{ path ('school_index') }}" class="href"><button class="btn-info">Ajouter un employeur</button></a>
         <h4>Vos écoles</h4>
-        {#{% for school in teacher.institute %}
-        <a href="{{ path('school',{'slug': school.slug})}}" class="href"><button class="btn-solid mb-3"><strong>{{ school.schoolName }}</strong> {{ school.slug }}</a></button>
+        {% for school in schools %}
+        <a href="{{ path('school_show',{'id': school.id})}}" class="href"><button class="btn-solid mb-3"><strong>{{ school.title }}</strong> {{ school.slug }}</a></button>
         <br>
-        {% endfor %}#}
+        {% endfor %}
 </div>
     </div>
 

@@ -19,11 +19,6 @@ class Teacher
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\School", inversedBy="teachers")
-     */
-    private $institute;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", inversedBy="teachers")
      */
     private $course;
@@ -34,10 +29,20 @@ class Teacher
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\School", mappedBy="teachers")
+     */
+    private $schools;
+
     public function __construct()
     {
-        $this->institute = new ArrayCollection();
         $this->course = new ArrayCollection();
+        $this->schools = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return strval($this->id);
     }
 
     public function getId(): ?int
@@ -45,31 +50,6 @@ class Teacher
         return $this->id;
     }
 
-    /**
-     * @return Collection|School[]
-     */
-    public function getInstitute(): Collection
-    {
-        return $this->institute;
-    }
-
-    public function addInstitute(School $institute): self
-    {
-        if (!$this->institute->contains($institute)) {
-            $this->institute[] = $institute;
-        }
-
-        return $this;
-    }
-
-    public function removeInstitute(School $institute): self
-    {
-        if ($this->institute->contains($institute)) {
-            $this->institute->removeElement($institute);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Discipline[]
@@ -105,6 +85,34 @@ class Teacher
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|School[]
+     */
+    public function getSchools(): Collection
+    {
+        return $this->schools;
+    }
+
+    public function addSchool(School $school): self
+    {
+        if (!$this->schools->contains($school)) {
+            $this->schools[] = $school;
+            $school->addTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchool(School $school): self
+    {
+        if ($this->schools->contains($school)) {
+            $this->schools->removeElement($school);
+            $school->removeTeacher($this);
+        }
 
         return $this;
     }

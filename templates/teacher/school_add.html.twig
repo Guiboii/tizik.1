@@ -3,11 +3,19 @@
 {% block title %} Ajouter un employeur {% endblock %}
 
 {% block body %}
-    <div class="container mt4">
-        <h1>Ajouter un employeur</h1>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-success">Confirmez la création</button>
-        {{ form_end(form) }}
+<div class="row centered">
+    <div class="col">
+        <div class="container mt4">
+            <h1>Ajouter un employeur</h1>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success">Confirmez la création</button>
+            {{ form_end(form) }}
+        </div>
     </div>
+    <div class="col">
+    <a href="{{ path ('school_new') }}" class="btn btn-success"> Ajouter un établissement</a>
+    </div>
+</div>
+    
 {% endblock %}

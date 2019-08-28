@@ -73,14 +73,14 @@ class AdminUserController extends AbstractController
      * @Route("/admin/schools", name="school_index")
      *
      */
-    public function schoolIndex(SchoolRepository $repo)
+    /*public function schoolIndex(SchoolRepository $repo)
     {
 
         return $this->render('admin/school/index.html.twig', [
            'schools' => $repo->findAll()
            ]);
 
-    }
+    }*/
 
     /**
      * Permet d'afficher une école et ses utilisateurs
@@ -88,7 +88,7 @@ class AdminUserController extends AbstractController
      * @Route("/admin/schools/{slug}", name="school_admin")
      *
      */
-    public function schoolUsers(School $school)
+    /*public function schoolUsers(School $school)
     {
         $users = $school->getUser();
 
@@ -96,5 +96,5 @@ class AdminUserController extends AbstractController
             'school' => $school,
             'users' => $users
         ]);
-    }
+    }*/
 }

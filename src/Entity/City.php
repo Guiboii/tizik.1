@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class City
 {
@@ -26,44 +24,31 @@ class City
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="city")
-     */
-    private $schools;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Household", mappedBy="City")
-     */
-    private $households;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * Permet d'initialiser le slug
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     * 
-     * @return void
+     * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="city")
      */
-    public function initializeSlug() {
-        if(empty($this->slug)) {
-            $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->name);
-        }
-    }
-    
+    private $schools;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Household", mappedBy="ville")
+     */
+    private $households;
 
     public function __construct()
     {
         $this->schools = new ArrayCollection();
-        $this->villes = new ArrayCollection();
         $this->households = new ArrayCollection();
     }
 
-   
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +62,18 @@ class City
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -113,81 +110,34 @@ class City
     }
 
     /**
-     * @return Collection|School[]
+     * @return Collection|Household[]
      */
-    public function getVilles(): Collection
+    public function getHouseholds(): Collection
     {
-        return $this->villes;
+        return $this->households;
     }
 
-    public function addVille(School $ville): self
+    public function addHousehold(Household $household): self
     {
-        if (!$this->villes->contains($ville)) {
-            $this->villes[] = $ville;
-            $ville->setVille($this);
+        if (!$this->households->contains($household)) {
+            $this->households[] = $household;
+            $household->setVille($this);
         }
 
         return $this;
     }
 
-    public function removeVille(School $ville): self
+    public function removeHousehold(Household $household): self
     {
-        if ($this->villes->contains($ville)) {
-            $this->villes->removeElement($ville);
+        if ($this->households->contains($household)) {
+            $this->households->removeElement($household);
             // set the owning side to null (unless already changed)
-            if ($ville->getVille() === $this) {
-                $ville->setVille(null);
+            if ($household->getVille() === $this) {
+                $household->setVille(null);
             }
         }
 
         return $this;
     }
 
-        public function __toString()
-   {
-      return strval( $this->getId() );
-   }
-
-        /**
-         * @return Collection|Household[]
-         */
-        public function getHouseholds(): Collection
-        {
-            return $this->households;
-        }
-
-        public function addHousehold(Household $household): self
-        {
-            if (!$this->households->contains($household)) {
-                $this->households[] = $household;
-                $household->setCity($this);
-            }
-
-            return $this;
-        }
-
-        public function removeHousehold(Household $household): self
-        {
-            if ($this->households->contains($household)) {
-                $this->households->removeElement($household);
-                // set the owning side to null (unless already changed)
-                if ($household->getCity() === $this) {
-                    $household->setCity(null);
-                }
-            }
-
-            return $this;
-        }
-
-        public function getSlug(): ?string
-        {
-            return $this->slug;
-        }
-
-        public function setSlug(string $slug): self
-        {
-            $this->slug = $slug;
-
-            return $this;
-        }
 }

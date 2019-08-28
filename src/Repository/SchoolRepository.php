@@ -3,11 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\School;
-use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\Query\AST\Join;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method School|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,14 +19,24 @@ class SchoolRepository extends ServiceEntityRepository
         parent::__construct($registry, School::class);
     }
 
-    public function findByUsers($school)
-    {
-        return $this->createQueryBuilder('s')
-                    ->select('s.user')
-                    ->andWhere('s.id = :school')
-                    ->setParameter('school', $school)
-                    ->getQuery()
-                    ->getResult();
+    public function findByTeachers($manager, $teachers){
+
+        $query = $manager->createQuery(
+            "SELECT s FROM App\Entity\School s 
+            JOIN s.teachers t "
+            );
+        
+        return $query->getResult();
+    }
+
+    public function findByTeacher($manager, $teacher){
+
+        $query = $manager->createQuery(
+            "SELECT s FROM App\Entity\School s 
+            JOIN s.teachers t"
+            );
+        
+        return $query->getResult();
     }
 //    /**
 //     * @return School[] Returns an array of School objects

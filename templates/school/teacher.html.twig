@@ -1,0 +1,13 @@
+{% extends 'teacher/base.html.twig' %}
+
+{% block title %}Add School{% endblock %}
+
+{% block body %}
+    <h1>Ajouter {{school.title}}</h1>
+
+        {{ include('school/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('school_index') }}">back to list</a>
+
+        {{ include('school/_deleteteacher_form.html.twig', {'button_label': 'Delete'}) }}
+{% endblock %}

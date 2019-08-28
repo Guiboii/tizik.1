@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use App\Repository\SchoolRepository;
+use App\Repository\TeacherRepository;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +17,7 @@ class HomeController extends Controller {
      * @Route("/", name="homepage")
      * 
     */
-    public function home(ObjectManager $manager, UserRepository $repo){
+    public function home(ObjectManager $manager, UserRepository $repo, SchoolRepository $schoolRepo, TeacherRepository $teacherRepo){
 
         $user = $this->getUser();
 
@@ -26,7 +28,7 @@ class HomeController extends Controller {
                 return $this->adminDashboard($manager, $repo);
                 }
             if($role == "teachers"){
-                return $this->teacherHome();
+                return $this->teacherHome($manager, $schoolRepo, $teacherRepo);
                 }
             if($role == "students"){
                 return $this->studentHome();
@@ -71,11 +73,14 @@ class HomeController extends Controller {
      * 
      * @Route("/teacher", name="teacher_home")
      */
-    public function teacherHome(){
+    public function teacherHome(ObjectManager $manager, SchoolRepository $schoolRepo, TeacherRepository $teacherRepo){
         $user = $this->getUser();
+        $teacher = $teacherRepo->findOneByUser($user);
+        $schools = $schoolRepo->findByTeacher($manager, $teacher);
 
         return $this->render('teacher/home.html.twig', [
                     'user' => $user,
+                    'schools' => $schools,
                     ]);
 
         

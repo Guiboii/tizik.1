@@ -13,20 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TeacherSchoolController extends AbstractController
 {
 
-    /**
-     * Ajouter un employeur
-     * 
-     * @Route("/teacher/school_add", name="school_add")
-     *
-     * @return Response
-     */
-    public function addSchool(Request $request, ObjectManager $manager){
+
+    /**public function addSchool(Request $request, ObjectManager $manager){
         $school = new School();
+
         $form = $this->createForm(SchoolAddType::class, $school);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted()) //&& $form->isValid())//
+        {
             $manager->persist($school);
             $manager->flush();
 

@@ -22,7 +22,7 @@ class TeacherStudentController extends AbstractController
      * 
      * @return Response
      */
-    public function register(School $school, RoleRepository $role, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
+    /**public function register(School $school, RoleRepository $role, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
 
         $teacher = $this->getUser();
         $slug = $school->getSlug();
@@ -56,5 +56,5 @@ class TeacherStudentController extends AbstractController
             'mentor' => $teacher,
             'form' => $form->createView(),
         ]);
-    }
+    } */
 }

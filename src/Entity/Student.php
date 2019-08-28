@@ -20,11 +20,6 @@ class Student
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\School", inversedBy="students")
-     */
-    private $school;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", inversedBy="students")
      */
     private $activity;
@@ -46,6 +41,11 @@ class Student
      */
     private $email;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\School", inversedBy="students")
+     */
+    private $school;
+
     public function __construct()
     {
         $this->Activity = new ArrayCollection();
@@ -54,18 +54,6 @@ class Student
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSchool(): ?School
-    {
-        return $this->school;
-    }
-
-    public function setSchool(?School $school): self
-    {
-        $this->school = $school;
-
-        return $this;
     }
 
     /**
@@ -126,6 +114,18 @@ class Student
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    public function setSchool(?School $school): self
+    {
+        $this->school = $school;
 
         return $this;
     }
