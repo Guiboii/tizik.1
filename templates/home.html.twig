@@ -5,60 +5,15 @@
 {% endblock %}
 
 {% block body %}
-{% if role == "teachers" %}
-<div class="container">
-        <div class="container text-center">
-            <h1>Bonjour {{ user.fullName }}</h1>
-            <button class="btn btn-primary mb-1"><a href="{{ path ('teacher_home') }}" class="href">Se rendre sur votre tableau de bord</a></button>
-        </div>
-        <div class="container text-center">
-            <h1>Ce qu'il se passe sur TiZiK</h1>
-        </div>
-</div>
-{% endif %}
-{% if role == "admin" %}
-<div class="container">
-        <div class="container text-center">
-            <h1>Bonjour {{ user.fullName }}</h1>
-            <button class="btn btn-primary mb-1"><a href="{{ path ('admin_home') }}" class="href">Se rendre sur votre tableau de bord</a></button>
-        </div>
-        <div class="container text-center">
-            <h1>Ce qu'il se passe sur TiZiK</h1>
-        </div>
-</div>
-{% endif %}
-{% if role == "students" %}
-<div class="container">
-        <div class="container text-center">
-            <h1>Bonjour {{ user.fullName }}</h1>
-            <button class="btn btn-primary mb-1"><a href="{{ path ('student_home') }}" class="href">Se rendre sur votre tableau de bord</a></button>
-        </div>
-        <div class="container text-center">
-            <h1>Ce qu'il se passe sur TiZiK</h1>
-        </div>
-</div>
-{% endif %}
-{% if role == "households" %}
-<div class="container">
-        <div class="container text-center">
-            <h1>Bonjour {{ user.fullName }}</h1>
-            <button class="btn btn-primary mb-1"><a href="{{ path ('household_home') }}" class="href">Se rendre sur votre tableau de bord</a></button>
-        </div>
-        <div class="container text-center">
-            <h1>Ce qu'il se passe sur TiZiK</h1>
-        </div>
-</div>
-{% else %}
-<div class="container">
-    <row class="text-center">
-        <h1>Bienvenue sur la première ébauche de TiZiK !!</h1>
-        <p> le site de l'enseignement de la musique</p>
-        <div class="mx-auto margin-top-2">
-            <div class="badge badge-pill badge-warning">
-            Le site est pour le moment uniquement ouvert aux enseignants qui souhaitent bénéficier d'une application leur permettant de suivre le parcours de leurs élèves.
+    <div class="container">
+        <row class="text-center">
+            <h1>Bienvenue sur la première ébauche de TiZiK !!</h1>
+            <p> le site de l'enseignement de la musique</p>
+            <div class="mx-auto margin-top-2">
+                <div class="badge badge-pill badge-warning">
+                Le site est pour le moment uniquement ouvert aux enseignants qui souhaitent bénéficier d'une application leur permettant de suivre le parcours de leurs élèves.
+                </div>
             </div>
-        </div>
-    </row>
-</div>
-{% endif %}
+        </row>
+    </div>
 {% endblock %}

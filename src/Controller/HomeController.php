@@ -15,14 +15,42 @@ class HomeController extends Controller {
      * @Route("/", name="homepage")
      * 
     */
-    public function home(Security $security){
-            $user = $security->getUser();
-            $role = $user->getWish();
+    public function home(ObjectManager $manager, UserRepository $repo){
 
-        return $this->render('home.html.twig', [
+        $user = $this->getUser();
+
+        if($user != "") {
+            $role =$user->getWish();
+            if($role == "simple"){}
+            if($role == "admin"){
+                return $this->adminDashboard($manager, $repo);
+                }
+            if($role == "teachers"){
+                return $this->teacherHome();
+                }
+            if($role == "students"){
+                return $this->studentHome();
+                }
+            if($role == "households") {
+                return $this->householdHome();
+                }
+        }
+            return $this->render('home.html.twig');
+    }
+
+    /**
+     * @Route("/home", name="user_home")
+     * 
+    */
+    public function userHome(){
+            $user = $this->getUser();
+            $role = $user->getWish();
+            return $this->render('home.html.twig', [
                  'user' => $user,
                  'role' => $role
                  ]);
+
+        
     }
     
     /**
@@ -31,11 +59,11 @@ class HomeController extends Controller {
      * @Route("/admin", name="admin_home")
      */
     public function adminDashboard(ObjectManager $manager, UserRepository $repo){
-
         $users = $repo->findUsersByUnverified($manager, $repo);
 
-        return $this->render('admin/home.html.twig', [
-            'users' => $users]);
+                return $this->render('admin/home.html.twig', [
+                    'users' => $users]);
+        
     }
     
     /**
@@ -47,8 +75,10 @@ class HomeController extends Controller {
         $user = $this->getUser();
 
         return $this->render('teacher/home.html.twig', [
-            'user' => $user,
-        ]);
+                    'user' => $user,
+                    ]);
+
+        
     }
 
     /**
@@ -60,12 +90,14 @@ class HomeController extends Controller {
         $user = $this->getUser();
 
         return $this->render('student/home.html.twig', [
-            'user' => $user,
-        ]);
+                    'user' => $user,
+                    ]);
+
+        
     }
 
     /**
-     * Affiche le tableau de bord de l'etudiant(e)
+     * Affiche le tableau de bord du foyer
      * 
      * @Route("/household", name="household_home")
      */
@@ -73,8 +105,10 @@ class HomeController extends Controller {
         $user = $this->getUser();
 
         return $this->render('household/home.html.twig', [
-            'user' => $user,
-        ]);
-    }
+                    'user' => $user,
+                    ]);
+
+        
+    } 
 }
 ?>
