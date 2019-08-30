@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Teacher;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\TeacherRepository;
 use Symfony\Component\Security\Core\Security;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -72,15 +74,20 @@ class HomeController extends Controller {
      * Affiche le tableau de bord de l'enseignant(e)
      * 
      * @Route("/teacher", name="teacher_home")
+     * 
+     * @return Response
      */
     public function teacherHome(ObjectManager $manager, SchoolRepository $schoolRepo, TeacherRepository $teacherRepo){
         $user = $this->getUser();
         $teacher = $teacherRepo->findOneByUser($user);
-        $schools = $schoolRepo->findByTeacher($manager, $teacher);
+        //$schools = $teacherRepo->getSchools()->countBy();
+        //dd($schools);
+        //$schoolsGet = $teacherRepo->findSchools($schoolRef);
+        //$schools = $schoolsGet->getTitle();
 
         return $this->render('teacher/home.html.twig', [
                     'user' => $user,
-                    'schools' => $schools,
+                    'teacher' => $teacher,
                     ]);
 
         

@@ -69,7 +69,7 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->setValidation(TRUE)
+                    ->setValidation(1)
                     ->setWish('simple');
 
             $manager->persist($user);
@@ -108,7 +108,7 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->setValidation(FALSE)
+                    ->setValidation(0)
                     ->setWish($teacherRole);
 
             $manager->persist($user);
@@ -149,7 +149,7 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->setValidation(FALSE)
+                    ->setValidation(0)
                     ->setWish($studentRole);
 
             $manager->persist($user);
@@ -188,7 +188,7 @@ class AccountController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             $hash = $encoder->encodePassword($user, $user->getHash());
             $user   ->setHash($hash)
-                    ->setValidation(FALSE)
+                    ->setValidation(0)
                     ->setWish($householdRole);
 
             $manager->persist($user);

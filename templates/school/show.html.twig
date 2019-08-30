@@ -8,16 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ school.id }}</td>
-            </tr>
-            <tr>
                 <th>Title</th>
                 <td>{{ school.title }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ school.slug }}</td>
             </tr>
             <tr>
                 <th>Address</th>
@@ -25,10 +17,14 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('school_index') }}">back to list</a>
-    <a href="{{ path('school_teacher', {'id': school.id}) }}">add</a>
-    <a href="{{ path('school_edit', {'id': school.id}) }}">edit</a>
-
-    {{ include('school/_delete_form.html.twig') }}
+    <div class="row text-center">
+        <div class="col"></div>
+            <a href="{{ path('school_index') }}" class="btn btn-primary">
+            <i class="fas fa-school"></i>
+             Retour à la liste des écoles</a>
+        <div class="col">
+            <a href="{{ path('school_edit', {'id': school.id}) }}" class="btn btn-primary"><i class="fas fa-check"></i> Ajouter cette école à ma liste</a>
+        </div>
+    </div>
+    {#{{ include('school/_delete_form.html.twig') }}#}
 {% endblock %}

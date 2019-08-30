@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\TeacherAddSchoolType;
+use App\Repository\UserRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\TeacherRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TeacherController extends AbstractController
 {
+    /**
+     * Affiche la liste des écoles de l'enseignant
+     * 
+     * @Route("/teacher/schools", name="teacher_schools")
+     * 
+     * @return Response
+     */
+    public function teacherHome(TeacherRepository $teacherRepo)
+    {
+        $user = $this->getUser();
+        $teacher = $teacherRepo->findOneByUser($user);
+
+        return $this->render('teacher/schools.index.html.twig', [
+                    'user' => $user,
+                    'teacher' => $teacher,
+                    ]);
+
+        
+    }
     /**
      * @Route("/teacher/school_add", name="school_add", methods="GET|POST")
      *
@@ -48,5 +68,4 @@ class TeacherController extends AbstractController
             'form' => $form->createView()]
                 );
     }
-
 }

@@ -4,18 +4,21 @@
 
 {% block body %}
     <div class="container mb-3">
-        <h2 class="text-right">
-            {{ user.fullName }} {{user.id}}
-        </h2>
-        <div class="container-fluid">
-    <h1 class="my-5">Bienvenue sur le tableau de bord</h1>
-        <a href="{{ path ('school_index') }}" class="href"><button class="btn-info">Ajouter un employeur</button></a>
-        <h4>Vos écoles</h4>
-        {% for school in schools %}
-        <a href="{{ path('school_show',{'id': school.id})}}" class="href"><button class="btn-solid mb-3"><strong>{{ school.title }}</strong> {{ school.slug }}</a></button>
-        <br>
-        {% endfor %}
-</div>
+        <div class="container">
+            <h1 class="my-5">Bienvenue sur le tableau de bord</h1>
+            <div class="alert alert-info mt-3">
+                <p>Retrouvez ici une vue globale de vos différentes activités</p>
+            </div>
+            <div class="row text-center">
+                <div class="col"><a href="{{ path ('teacher_schools') }}" class="href"><button class="btn btn-info">
+                <i class="fas fa-school"></i> Écoles</button></a></div>
+                <div class="col"><a href="#" class="href"><button class="btn btn-info">
+                <i class="fas fa-user-graduate"></i> Élèves</button></a></div>
+                <div class="col"><a href="#" class="href"><button class="btn btn-info"><i class="fas fa-chalkboard-teacher"></i> Cours</button></a></div>
+                <div class="col"><a href="#" class="href"><button class="btn btn-info"><i class="fas fa-project-diagram"></i> Projets</button></a></div>
+            </div>
+        </div>
     </div>
+
 
 {% endblock %}

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("teacher/school")
+ * @Route("/school")
  */
 class SchoolController extends AbstractController
 {
@@ -28,7 +28,7 @@ class SchoolController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="school_new", methods="GET|POST")
+     * @Route("teacher/new", name="school_new", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
@@ -59,7 +59,7 @@ class SchoolController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/add_teacher", name="school_teacher", methods="GET|POST")
+     * @Route("teacher/{id}/add_teacher", name="school_teacher", methods="GET|POST")
      */
 
      public function addTeacher(Request $request, School $school, TeacherRepository $repo, ObjectManager $manager)
@@ -114,7 +114,7 @@ class SchoolController extends AbstractController
     
 
     /**
-     * @Route("/{id}/rem_teacher", name="teacherSchool_delete", methods="DELETE")
+     * @Route("teacher/{id}/rem_teacher", name="teacherSchool_delete", methods="DELETE")
      */
     public function deleteTeacher(Request $request, Teacher $teacher): Response
     {
@@ -128,14 +128,18 @@ class SchoolController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="school_edit", methods="GET|POST")
+     * @Route("teacher/{id}/edit", name="school_edit", methods="GET|POST")
      */
-    public function edit(Request $request, School $school): Response
+    public function edit(Request $request, School $school, TeacherRepository $teacherRepo) : Response
     {
+        $user = $this->getUser();
+        $teacher = $teacherRepo->findOneByUser($user);
+
         $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $school->addTeacher($teacher);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('school_edit', ['id' => $school->getId()]);
@@ -148,7 +152,7 @@ class SchoolController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="school_delete", methods="DELETE")
+     * @Route("admin/{id}", name="school_delete", methods="DELETE")
      */
     public function delete(Request $request, School $school): Response
     {
