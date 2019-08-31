@@ -20,11 +20,6 @@ class Student
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", inversedBy="students")
-     */
-    private $activity;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -54,32 +49,6 @@ class Student
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Discipline[]
-     */
-    public function getActivity(): Collection
-    {
-        return $this->activity;
-    }
-
-    public function addActivity(Discipline $activity): self
-    {
-        if (!$this->activity->contains($activity)) {
-            $this->activity[] = $activity;
-        }
-
-        return $this;
-    }
-
-    public function removeActivity(Discipline $activity): self
-    {
-        if ($this->activity->contains($activity)) {
-            $this->activity->removeElement($activity);
-        }
-
-        return $this;
     }
 
     public function getUser(): ?User

@@ -24,24 +24,19 @@ class Discipline
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\School", inversedBy="disciplines")
      */
-    private $type;
+    private $schools;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", mappedBy="Course")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", inversedBy="disciplines")
      */
     private $teachers;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Student", mappedBy="Activity")
-     */
-    private $students;
-
     public function __construct()
     {
+        $this->schools = new ArrayCollection();
         $this->teachers = new ArrayCollection();
-        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,14 +56,28 @@ class Discipline
         return $this;
     }
 
-    public function getType(): ?string
+    /**
+     * @return Collection|School[]
+     */
+    public function getSchools(): Collection
     {
-        return $this->Type;
+        return $this->schools;
     }
 
-    public function setType(string $Type): self
+    public function addSchool(School $school): self
     {
-        $this->Type = $Type;
+        if (!$this->schools->contains($school)) {
+            $this->schools[] = $school;
+        }
+
+        return $this;
+    }
+
+    public function removeSchool(School $school): self
+    {
+        if ($this->schools->contains($school)) {
+            $this->schools->removeElement($school);
+        }
 
         return $this;
     }
@@ -85,7 +94,6 @@ class Discipline
     {
         if (!$this->teachers->contains($teacher)) {
             $this->teachers[] = $teacher;
-            $teacher->addCourse($this);
         }
 
         return $this;
@@ -95,35 +103,6 @@ class Discipline
     {
         if ($this->teachers->contains($teacher)) {
             $this->teachers->removeElement($teacher);
-            $teacher->removeCourse($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Student[]
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(Student $student): self
-    {
-        if (!$this->students->contains($student)) {
-            $this->students[] = $student;
-            $student->addActivity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): self
-    {
-        if ($this->students->contains($student)) {
-            $this->students->removeElement($student);
-            $student->removeActivity($this);
         }
 
         return $this;
