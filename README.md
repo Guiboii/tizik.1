@@ -19,3 +19,17 @@ TiZiK, le site de l'enseignement de la musique
 <h2>Les Forms</h2>
 <h2>Les Fixtures</h2>
 <h1></h1>
+
+Attention, le .md signifie syntaxte markdown ... plutôt que html.
+* Il faut ajouter une section INSTALL (a minima, comment installer l'application, vue qu'un simple «check out» ne suffit pas)
+* Il faut ajouter une section CONTRIBUTE
+
+## INSTALL
+### {L,X,M,W}AMP (PHP >= 7)
+### Symphony framework
+
+## CONTRIBUTE
+Pour l'instant, merci de cloner le projet et de faire vos «pull requests» via github.
+
+## LICENCE
+Pour l'instant sous (c) Guiboii, la licence est en cours de discussion.
