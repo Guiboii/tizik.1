@@ -43,7 +43,7 @@ class HomeController extends Controller {
     }
 
     /**
-     * @Route("/home", name="user_home")
+     * @Route("/home/", name="user_home")
      * 
     */
     public function userHome(){
@@ -60,7 +60,7 @@ class HomeController extends Controller {
     /**
      * Affiche le tableau de bord de l'administration
      *
-     * @Route("/admin", name="admin_home")
+     * @Route("/admin/", name="admin_home")
      */
     public function adminDashboard(ObjectManager $manager, UserRepository $repo){
         $users = $repo->findUsersByUnverified($manager, $repo);
@@ -80,10 +80,6 @@ class HomeController extends Controller {
     public function teacherHome(ObjectManager $manager, SchoolRepository $schoolRepo, TeacherRepository $teacherRepo){
         $user = $this->getUser();
         $teacher = $teacherRepo->findOneByUser($user);
-        //$schools = $teacherRepo->getSchools()->countBy();
-        //dd($schools);
-        //$schoolsGet = $teacherRepo->findSchools($schoolRef);
-        //$schools = $schoolsGet->getTitle();
 
         return $this->render('teacher/home.html.twig', [
                     'user' => $user,

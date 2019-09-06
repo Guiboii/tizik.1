@@ -13,29 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TeacherSchoolController extends AbstractController
 {
 
-
-    /**public function addSchool(Request $request, ObjectManager $manager){
-        $school = new School();
-
-        $form = $this->createForm(SchoolAddType::class, $school);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted()) //&& $form->isValid())//
-        {
-            $manager->persist($school);
-            $manager->flush();
-
-            $this->addFlash('success', "L'école a bien été ajouté !");
-
-            return $this->redirectToRoute('teacher');
-        }
-
-        return $this->render('teacher/school_add.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
     /**
      * Afficher les activités d'une école
      * 

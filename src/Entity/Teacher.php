@@ -30,15 +30,14 @@ class Teacher
     private $schools;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", mappedBy="teachers")
+     * @ORM\OneToOne(targetEntity="App\Entity\Discipline", mappedBy="teacher", cascade={"persist", "remove"})
      */
-    private $disciplines;
+    private $discipline;
 
     public function __construct()
     {
         $this->course = new ArrayCollection();
         $this->schools = new ArrayCollection();
-        $this->disciplines = new ArrayCollection();
     }
 
     public function __toString()
@@ -91,29 +90,19 @@ class Teacher
         return $this;
     }
 
-    /**
-     * @return Collection|Discipline[]
-     */
-    public function getDisciplines(): Collection
+    public function getDiscipline(): ?Discipline
     {
-        return $this->disciplines;
+        return $this->discipline;
     }
 
-    public function addDiscipline(Discipline $discipline): self
+    public function setDiscipline(?Discipline $discipline): self
     {
-        if (!$this->disciplines->contains($discipline)) {
-            $this->disciplines[] = $discipline;
-            $discipline->addTeacher($this);
-        }
+        $this->discipline = $discipline;
 
-        return $this;
-    }
-
-    public function removeDiscipline(Discipline $discipline): self
-    {
-        if ($this->disciplines->contains($discipline)) {
-            $this->disciplines->removeElement($discipline);
-            $discipline->removeTeacher($this);
+        // set (or unset) the owning side of the relation if necessary
+        $newTeacher = $discipline === null ? null : $this;
+        if ($newTeacher !== $discipline->getTeacher()) {
+            $discipline->setTeacher($newTeacher);
         }
 
         return $this;

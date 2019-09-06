@@ -12,6 +12,7 @@
                 <th>Title</th>
                 <th>Slug</th>
                 <th>Address</th>
+                <th>Disciplines</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,9 +23,16 @@
                 <td>{{ school.title }}</td>
                 <td>{{ school.slug }}</td>
                 <td>{{ school.address }}</td>
+                <td>discipline</td>
                 <td>
-                    <a href="{{ path('school_show', {'id': school.id}) }}">show</a>
-                    <a href="{{ path('school_edit', {'id': school.id}) }}">edit</a>
+                    <a href="{{ path('school_show', {'slug': school.slug}) }}" class="btn btn-primary">
+                    <i class="far fa-eye"></i> Voir</a>
+                    {% if user.wish == 'teachers' %}
+                    <a href="{{ path('school_teacher', {'slug': school.slug}) }}" class="btn btn-success"><i class="fas fa-check"></i> Ajouter</a>
+                    {% endif %}
+                    {# {% if teacher.schools "contains" school.id %}
+                    <a href="{{ path('school_teacher', {'slug': school.slug}) }}" class="btn btn-danger"><i class="fas fa-eject"></i> Retirer</a>
+                    {% endif %} #}
                 </td>
             </tr>
         {% else %}

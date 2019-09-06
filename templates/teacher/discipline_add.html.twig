@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Discipline{% endblock %}
+
+{% block body %}
+    <h1>Ajoutez une discipline enseignée dans {{school.title}}</h1>
+
+    {{ include('discipline/_form.html.twig') }}
+
+    <a href="{{ path('teacher_home') }}">back to list</a>
+{% endblock %}

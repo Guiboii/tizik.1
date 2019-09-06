@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\School;
+use App\Form\SchoolTeacherType;
 use App\Form\TeacherAddSchoolType;
 use App\Repository\UserRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\TeacherRepository;
+use App\Form\TeacherAddDisciplineType;
+use App\Repository\DisciplineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,39 +37,38 @@ class TeacherController extends AbstractController
 
         
     }
+
     /**
-     * @Route("/teacher/school_add", name="school_add", methods="GET|POST")
-     *
-     * @param Request $request
-     * @param ObjectManager $manager
-     * @param School $school
-     * @return void
+     * Permet d'ajouter une école à un(e) enseignant(e)
+     * 
+     * @Route("teacher/{slug}/add_school", name="school_teacher", methods="GET|POST")
      */
-    public function addSchool(Request $request, ObjectManager $manager, SchoolRepository $repoSchool, TeacherRepository $repoTeacher)
-    {
-        $user = $this->getUser();
-        $id = $user->getId();
-        $teacher = $repoTeacher->findOneByUser($id);
-        $relation = $teacher->getSchools();
-        $schools = $repoSchool->findAll();
-        $form = $this->createForm(TeacherAddSchoolType::class, $relation);
-        
+
+     public function addTeacher(Request $request, School $school, TeacherRepository $repo, ObjectManager $manager)
+     {
+         $user = $this->getUser();
+         $teacher = $repo->findOneByUser($user);
+
+        $form = $this->createForm(SchoolTeacherType::class, $school);
+
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($relation);
-
+         if ($form->isSubmitted() && $form->isValid()) {
+            $school->addTeacher($teacher);
+            $manager->persist($school);
             $manager->flush();
 
             $this->addFlash(
                 'success',
                 "l'établissement a bien été ajouté");
 
-            return $this->redirectToRoute('teacher_home');
+            return $this->redirectToRoute('teacher_schools');
         }
 
-        return $this->render('teacher/school_add.html.twig', [
-            'form' => $form->createView()]
-                );
-    }
+         return $this->render('teacher/school_add.html.twig', [
+            'school' => $school,
+            'teacher' => $teacher,
+            'form' => $form->createView()
+         ]);
+     }
 }

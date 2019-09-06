@@ -4,19 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Discipline;
 use App\Form\DisciplineType;
+use App\Repository\UserRepository;
 use App\Repository\DisciplineRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/discipline")
- */
 class DisciplineController extends AbstractController
 {
     /**
-     * @Route("/", name="discipline_index", methods="GET")
+     * @Route("/admin/discipline", name="discipline_index", methods="GET")
      */
     public function index(DisciplineRepository $disciplineRepository): Response
     {
@@ -24,16 +22,19 @@ class DisciplineController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="discipline_new", methods="GET|POST")
+     * @Route("teacher/{slug}/discipline_new", name="discipline_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserRepository $userRepo): Response
     {
+        $user = $this->getUser();
+        $teacher = $userRepo->findOneByUser($user);
         $discipline = new Discipline();
         $form = $this->createForm(DisciplineType::class, $discipline);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $discipline->addTeacher($teacher);
             $em->persist($discipline);
             $em->flush();
 

@@ -23,7 +23,7 @@
             <i class="fas fa-school"></i>
              Retour à la liste des écoles</a>
         <div class="col">
-            <a href="{{ path('school_edit', {'id': school.id}) }}" class="btn btn-primary"><i class="fas fa-check"></i> Ajouter cette école à ma liste</a>
+            <a href="{{ path('school_edit', {'slug': school.slug}) }}" class="btn btn-primary"><i class="fas fa-check"></i> Ajouter cette école à ma liste</a>
         </div>
     </div>
     {#{{ include('school/_delete_form.html.twig') }}#}

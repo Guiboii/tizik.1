@@ -50,15 +50,14 @@ class School
     private $city;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", mappedBy="schools")
+     * @ORM\OneToOne(targetEntity="App\Entity\Discipline", mappedBy="school", cascade={"persist", "remove"})
      */
-    private $disciplines;
-
+    private $discipline;
+    
     public function __construct()
     {
         $this->teachers = new ArrayCollection();
         $this->students = new ArrayCollection();
-        $this->disciplines = new ArrayCollection();
     }
 
     public function __toString()
@@ -133,37 +132,6 @@ class School
         return $this;
     }
 
-    /**
-     * @return Collection|Student[]
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(Student $student): self
-    {
-        if (!$this->students->contains($student)) {
-            $this->students[] = $student;
-            $student->setSchool($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): self
-    {
-        if ($this->students->contains($student)) {
-            $this->students->removeElement($student);
-            // set the owning side to null (unless already changed)
-            if ($student->getSchool() === $this) {
-                $student->setSchool(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCity(): ?City
     {
         return $this->city;
@@ -176,29 +144,19 @@ class School
         return $this;
     }
 
-    /**
-     * @return Collection|Discipline[]
-     */
-    public function getDisciplines(): Collection
+    public function getDiscipline(): ?Discipline
     {
-        return $this->disciplines;
+        return $this->discipline;
     }
 
-    public function addDiscipline(Discipline $discipline): self
+    public function setDiscipline(?Discipline $discipline): self
     {
-        if (!$this->disciplines->contains($discipline)) {
-            $this->disciplines[] = $discipline;
-            $discipline->addSchool($this);
-        }
+        $this->discipline = $discipline;
 
-        return $this;
-    }
-
-    public function removeDiscipline(Discipline $discipline): self
-    {
-        if ($this->disciplines->contains($discipline)) {
-            $this->disciplines->removeElement($discipline);
-            $discipline->removeSchool($this);
+        // set (or unset) the owning side of the relation if necessary
+        $newSchool = $discipline === null ? null : $this;
+        if ($newSchool !== $discipline->getSchool()) {
+            $discipline->setSchool($newSchool);
         }
 
         return $this;
