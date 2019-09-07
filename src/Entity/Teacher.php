@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Discipline;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeacherRepository")
@@ -28,11 +29,6 @@ class Teacher
      * @ORM\ManyToMany(targetEntity="App\Entity\School", mappedBy="teachers")
      */
     private $schools;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Discipline", mappedBy="teacher", cascade={"persist", "remove"})
-     */
-    private $discipline;
 
     public function __construct()
     {
@@ -85,24 +81,6 @@ class Teacher
         if ($this->schools->contains($school)) {
             $this->schools->removeElement($school);
             $school->removeTeacher($this);
-        }
-
-        return $this;
-    }
-
-    public function getDiscipline(): ?Discipline
-    {
-        return $this->discipline;
-    }
-
-    public function setDiscipline(?Discipline $discipline): self
-    {
-        $this->discipline = $discipline;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newTeacher = $discipline === null ? null : $this;
-        if ($newTeacher !== $discipline->getTeacher()) {
-            $discipline->setTeacher($newTeacher);
         }
 
         return $this;

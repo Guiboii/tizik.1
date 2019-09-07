@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SchoolRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class School
 {
@@ -50,9 +53,19 @@ class School
     private $city;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Discipline", mappedBy="school", cascade={"persist", "remove"})
+     * permet d'initialiser le slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @return void
      */
-    private $discipline;
+    public function initializeSlug()
+    {
+        if(empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
+    }
     
     public function __construct()
     {
@@ -140,24 +153,6 @@ class School
     public function setCity(?City $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getDiscipline(): ?Discipline
-    {
-        return $this->discipline;
-    }
-
-    public function setDiscipline(?Discipline $discipline): self
-    {
-        $this->discipline = $discipline;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newSchool = $discipline === null ? null : $this;
-        if ($newSchool !== $discipline->getSchool()) {
-            $discipline->setSchool($newSchool);
-        }
 
         return $this;
     }

@@ -6,10 +6,9 @@ use App\Entity\School;
 use App\Form\SchoolTeacherType;
 use App\Form\TeacherAddSchoolType;
 use App\Repository\UserRepository;
+use App\Form\TeacherSchoolEditType;
 use App\Repository\SchoolRepository;
 use App\Repository\TeacherRepository;
-use App\Form\TeacherAddDisciplineType;
-use App\Repository\DisciplineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -71,4 +70,29 @@ class TeacherController extends AbstractController
             'form' => $form->createView()
          ]);
      }
+
+     /**
+     * @Route("teacher/{slug}/edit", name="teacher_school_edit", methods="GET|POST")
+     */
+    public function edit(ObjectManager $manager, Request $request, School $school, TeacherRepository $teacherRepo) : Response
+    {
+        $user = $this->getUser();
+        $teacher = $teacherRepo->findByUser($user);
+
+        $form = $this->createForm(TeacherSchoolEditType::class, $school);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($school);
+            $manager->flush();
+
+            return $this->redirectToRoute('teacher_schools');
+        }
+
+        return $this->render('teacher/school.edit.html.twig', [
+            'school' => $school,
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

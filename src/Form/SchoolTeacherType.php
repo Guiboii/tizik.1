@@ -17,7 +17,6 @@ class SchoolTeacherType extends ApplicationType
     {
         $builder
             ->add('title')
-            ->add('slug')
             ->add('address')
             ->add('city')
         ;

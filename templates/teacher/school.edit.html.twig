@@ -1,0 +1,37 @@
+{% extends 'teacher/base.html.twig' %}
+
+{% block title %}{{ school.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col-6 text-center">
+                    <a href="{{ path('teacher_home')}}"><button class="btn-info">retour au tableau de bord</button></a>
+            </div>
+            <div class="col text-center">
+                {#<a href="{{ path('teacher_discipline_add', {'slug': school.slug})}}">#}<button class="btn-info text-right">ajouter une discipline</button></a>
+            </div>
+            <h1 class="my-5">Liste des disciplines enseignées à {{ school.city }}</h1>
+                {#{% if disciplines == null %}
+                    <p> Vous n'avez pas de discipline référencé dans cette école </p>
+                {% else %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for discipline in disciplines %}
+                                <tr>
+                                    <td>{{discipline.id}}</td>
+                                    <td>{{discipline.title}}</td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                {% endif %}#}
+        </div>
+    </div>
+
+{% endblock %}

@@ -2,25 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Discipline;
+use App\Entity\School;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DisciplineType extends AbstractType
+class TeacherSchoolEditType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title')
-            ->add('school')
+            ->add('address')
+            ->add('city')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Discipline::class,
+            'data_class' => School::class,
         ]);
     }
 }

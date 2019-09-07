@@ -15,7 +15,6 @@ class SchoolType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('slug')
             ->add('address')
             ->add('city')
         ;

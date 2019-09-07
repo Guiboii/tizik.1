@@ -8,20 +8,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Title</th>
-                <th>Slug</th>
                 <th>Address</th>
                 <th>Disciplines</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for school in schools %}
             <tr>
-                <td>{{ school.id }}</td>
                 <td>{{ school.title }}</td>
-                <td>{{ school.slug }}</td>
                 <td>{{ school.address }}</td>
                 <td>discipline</td>
                 <td>
