@@ -4,8 +4,8 @@ TiZiK, le site de l'enseignement de la musique
 ## INSTALL
 ### {L,X,M,W}AMP (PHP >= 7)
 ### Symphony4.2 framework
-### composer require cocur/slugify
-### composer require fzaninotto/faker --dev
+### [composer require cocur/slugify](https://github.com/cocur/slugify)
+### [composer require fzaninotto/Faker --dev](https://github.com/fzaninotto/Faker)
 
 ## CONTRIBUTE
 Pour l'instant, merci de cloner le projet et de faire vos «pull requests» via github.
