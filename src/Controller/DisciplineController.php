@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\School;
 use App\Entity\Discipline;
 use App\Form\DisciplineType;
+use App\Repository\TeacherRepository;
 use App\Repository\DisciplineRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/discipline")
- */
+
 class DisciplineController extends AbstractController
 {
     /**
-     * @Route("/", name="discipline_index", methods="GET")
+     * @Route("/discipline/", name="discipline_index", methods="GET")
      */
     public function index(DisciplineRepository $disciplineRepository): Response
     {
@@ -24,30 +24,34 @@ class DisciplineController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="discipline_new", methods="GET|POST")
+     * @Route("teacher/{slug}/discipline_new", name="discipline_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, School $school, TeacherRepository $teacherRepo): Response
     {
+        $user = $this->getUser();
+        $teacher = $teacherRepo->findOneByUser($user);
         $discipline = new Discipline();
         $form = $this->createForm(DisciplineType::class, $discipline);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $discipline ->addTeacher($teacher)
+                        ->addSchool($school);
             $em->persist($discipline);
             $em->flush();
 
-            return $this->redirectToRoute('discipline_index');
+            return $this->redirectToRoute('teacher_schools');
         }
 
-        return $this->render('discipline/new.html.twig', [
+        return $this->render('teacher/discipline_new.html.twig', [
             'discipline' => $discipline,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="discipline_show", methods="GET")
+     * @Route("/discipline/{id}", name="discipline_show", methods="GET")
      */
     public function show(Discipline $discipline): Response
     {
@@ -55,7 +59,7 @@ class DisciplineController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="discipline_edit", methods="GET|POST")
+     * @Route("/discipline/{id}/edit", name="discipline_edit", methods="GET|POST")
      */
     public function edit(Request $request, Discipline $discipline): Response
     {
@@ -75,7 +79,7 @@ class DisciplineController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="discipline_delete", methods="DELETE")
+     * @Route("/discipline/{id}", name="discipline_delete", methods="DELETE")
      */
     public function delete(Request $request, Discipline $discipline): Response
     {

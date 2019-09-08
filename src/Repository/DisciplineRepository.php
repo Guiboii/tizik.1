@@ -19,6 +19,15 @@ class DisciplineRepository extends ServiceEntityRepository
         parent::__construct($registry, Discipline::class);
     }
 
+     public function findByTeacher($manager, $teacher){
+
+        $query = $manager->createQuery(
+            "SELECT d FROM App\Entity\Discipline d 
+            JOIN d.teachers t"
+            );
+        
+        return $query->getResult();
+    }
 //    /**
 //     * @return Discipline[] Returns an array of Discipline objects
 //     */

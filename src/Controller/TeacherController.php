@@ -14,6 +14,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\DisciplineRepository;
 
 class TeacherController extends AbstractController
 {
@@ -24,14 +25,16 @@ class TeacherController extends AbstractController
      * 
      * @return Response
      */
-    public function teacherHome(TeacherRepository $teacherRepo)
+    public function teacherHome(TeacherRepository $teacherRepo, ObjectManager $manager, DisciplineRepository $disciplineRepo)
     {
         $user = $this->getUser();
         $teacher = $teacherRepo->findOneByUser($user);
+        $disciplines = $disciplineRepo->findByTeacher($manager, $teacher);
 
         return $this->render('teacher/schools.index.html.twig', [
                     'user' => $user,
                     'teacher' => $teacher,
+                    'disciplines' => $disciplines
                     ]);
 
         

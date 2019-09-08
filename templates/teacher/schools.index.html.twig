@@ -32,6 +32,9 @@
                                             <td>{{ school.title }}</td>
                                             <td>{{ school.address }}</td>
                                             <td>{{ school.city.name }}</td>
+                                                    {% for discipline in school.disciplines %}
+                                                    <td>{{ discipline.title }}</td>
+                                                    {% endfor %}
                                             <td>
                                                 <div class="col">
                                                     <div class="row my-1">
@@ -50,7 +53,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="row my-1">
-                                                        <a href="#" class="btn btn-secondary ml-1">
+                                                        <a href="{{ path('discipline_new', {'slug': school.slug}) }}" class="btn btn-secondary ml-1">
                                                             <i class="fas fa-music"> Disciplines</i>
                                                         </a>
                                                     </div>
