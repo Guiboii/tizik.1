@@ -9,10 +9,10 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SchoolRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\DisciplineRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class School
+class Discipline
 {
     /**
      * @ORM\Id()
@@ -32,30 +32,15 @@ class School
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $address;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", inversedBy="schools", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", inversedBy="disciplines")
      */
     private $teachers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="school")
+     * @ORM\ManyToMany(targetEntity="App\Entity\School", inversedBy="disciplines")
      */
-    private $students;
+    private $schools;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="schools")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $city;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", mappedBy="schools")
-     */
-    private $disciplines;
 
     /**
      * permet d'initialiser le slug
@@ -72,16 +57,11 @@ class School
         }
     }
     
+
     public function __construct()
     {
         $this->teachers = new ArrayCollection();
-        $this->students = new ArrayCollection();
-        $this->disciplines = new ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        return $this->title;
+        $this->schools = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,18 +93,6 @@ class School
         return $this;
     }
 
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Teacher[]
      */
@@ -151,44 +119,29 @@ class School
         return $this;
     }
 
-    public function getCity(): ?City
-    {
-        return $this->city;
-    }
-
-    public function setCity(?City $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Discipline[]
+     * @return Collection|School[]
      */
-    public function getDisciplines(): Collection
+    public function getSchools(): Collection
     {
-        return $this->disciplines;
+        return $this->schools;
     }
 
-    public function addDiscipline(Discipline $discipline): self
+    public function addSchool(School $school): self
     {
-        if (!$this->disciplines->contains($discipline)) {
-            $this->disciplines[] = $discipline;
-            $discipline->addSchool($this);
+        if (!$this->schools->contains($school)) {
+            $this->schools[] = $school;
         }
 
         return $this;
     }
 
-    public function removeDiscipline(Discipline $discipline): self
+    public function removeSchool(School $school): self
     {
-        if ($this->disciplines->contains($discipline)) {
-            $this->disciplines->removeElement($discipline);
-            $discipline->removeSchool($this);
+        if ($this->schools->contains($school)) {
+            $this->schools->removeElement($school);
         }
 
         return $this;
     }
-
 }
