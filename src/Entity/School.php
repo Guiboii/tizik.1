@@ -53,6 +53,11 @@ class School
     private $city;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Discipline", mappedBy="schools")
+     */
+    private $disciplines;
+
+    /**
      * permet d'initialiser le slug
      *
      * @ORM\PrePersist
@@ -71,6 +76,7 @@ class School
     {
         $this->teachers = new ArrayCollection();
         $this->students = new ArrayCollection();
+        $this->disciplines = new ArrayCollection();
     }
 
     public function __toString()
@@ -153,6 +159,34 @@ class School
     public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Discipline[]
+     */
+    public function getDisciplines(): Collection
+    {
+        return $this->disciplines;
+    }
+
+    public function addDiscipline(Discipline $discipline): self
+    {
+        if (!$this->disciplines->contains($discipline)) {
+            $this->disciplines[] = $discipline;
+            $discipline->addSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscipline(Discipline $discipline): self
+    {
+        if ($this->disciplines->contains($discipline)) {
+            $this->disciplines->removeElement($discipline);
+            $discipline->removeSchool($this);
+        }
 
         return $this;
     }

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Discipline{% endblock %}
+
+{% block body %}
+    <h1>Discipline</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ discipline.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ discipline.title }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ discipline.slug }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('discipline_index') }}">back to list</a>
+
+    <a href="{{ path('discipline_edit', {'id': discipline.id}) }}">edit</a>
+
+    {{ include('discipline/_delete_form.html.twig') }}
+{% endblock %}
